@@ -17,6 +17,7 @@ public:
     void seedPoints(int numPoints);
     void createApprox();
     void drawNetwork();
+    void drawCircle();
     
     void keyPressed  (int key);
     void keyReleased (int key);
