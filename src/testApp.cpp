@@ -16,9 +16,12 @@ void testApp::setup(){
     circleInner.xPos = circleOut.xPos;
     circleInner.yPos = circleOut.yPos;
     
+    
     createApprox();
     
-    numPoints = 1000;
+    numPoints = 500;
+    
+    //add generic clearing and generation of everything
     
     seedPoints(numPoints);
     
@@ -110,11 +113,13 @@ void testApp::update(){
             
             if(!circleInner.thisPath.inside(cP.x,cP.y) && circleOut.thisPath.inside(cP.x, cP.y)){
                 
+                ofColor c = ofColor(0,0,0);
+                
                 //if has hole
                 nodes.push_back(nodeType());
                 nodes.back().thisPoint = tp1;
                 nodes.back().fadeValue = 1.0;
-                nodes.back().nodeColor =  yellowColor;
+                nodes.back().nodeColor =  c;
                 nodes.back().isOn = true;
                 nodes.back().ID = curID;
                 
@@ -123,7 +128,7 @@ void testApp::update(){
                 nodes.push_back(nodeType());
                 nodes.back().thisPoint = tp2;
                 nodes.back().fadeValue = 1.0;
-                nodes.back().nodeColor =  yellowColor;
+                nodes.back().nodeColor =  c;
                 nodes.back().isOn = true;
                 nodes.back().ID = curID;
                 
@@ -133,7 +138,7 @@ void testApp::update(){
                 nodes.push_back(nodeType());
                 nodes.back().thisPoint = tp3;
                 nodes.back().fadeValue = 1.0;
-                nodes.back().nodeColor =  yellowColor;
+                nodes.back().nodeColor =  c;
                 nodes.back().isOn = true;
                 nodes.back().ID = curID;
                 
@@ -195,37 +200,45 @@ void testApp::drawNetwork(){
             
             //main point
             
-            /*
-             ofFill();
-             ofSetColor(nodes[i].nodeColor.r,nodes[i].nodeColor.g,nodes[i].nodeColor.b,nodes[i].fadeValue*255.0);
-             ofCircle(nodes[i].thisPoint,2);
-             */
+            ofColor nodeColor = ofColor(0,0,0);
+            
+            bool fillNodes = true;
+            
+            if(fillNodes){
+                
+                ofFill();
+                ofSetColor(nodes[i].nodeColor.r,nodes[i].nodeColor.g,nodes[i].nodeColor.b,nodes[i].fadeValue*255.0);
+                ofCircle(nodes[i].thisPoint,2);
+                
+                ofFill();
+                ofSetColor(nodes[indVal1].nodeColor.r,nodes[indVal1].nodeColor.g,nodes[indVal1].nodeColor.b,nodes[indVal1].fadeValue*255.0);
+                ofCircle(nodes[indVal1].thisPoint,2);
+                
+                ofFill();
+                ofSetColor(nodes[indVal2].nodeColor.r,nodes[indVal2].nodeColor.g,nodes[indVal2].nodeColor.b,nodes[indVal2].fadeValue*255.0);
+                ofCircle(nodes[indVal2].thisPoint,2);
+
+            }
+            
+
+            
             
             ofNoFill();
-            ofSetColor(255,255,255,nodes[i].fadeValue*255);
+            ofSetColor(nodeColor,nodes[i].fadeValue*255);
             ofCircle(nodes[i].thisPoint,2);
             
-            /*
-             //connect pt1
-             ofFill();
-             ofSetColor(nodes[indVal1].nodeColor.r,nodes[indVal1].nodeColor.g,nodes[indVal1].nodeColor.b,nodes[indVal1].fadeValue*255.0);
-             ofCircle(nodes[indVal1].thisPoint,2);
-             */
             
-            ofNoFill();
-            ofSetColor(255,255,255,nodes[indVal1].fadeValue*255);
+             //connect pt1
+                        ofNoFill();
+            ofSetColor(nodeColor,nodes[indVal1].fadeValue*255);
             ofCircle(nodes[indVal1].thisPoint,2);
             
-            /*
+            
              
              //connect pt2
-             ofFill();
-             ofSetColor(nodes[indVal2].nodeColor.r,nodes[indVal2].nodeColor.g,nodes[indVal2].nodeColor.b,nodes[indVal2].fadeValue*255.0);
-             ofCircle(nodes[indVal2].thisPoint,2);
-             
-             */
+                    
             ofNoFill();
-            ofSetColor(255,255,255,nodes[indVal2].fadeValue*255.0);
+            ofSetColor(nodeColor,nodes[indVal2].fadeValue*255.0);
             ofCircle(nodes[indVal2].thisPoint,2);
             
             
@@ -248,11 +261,10 @@ void testApp::drawCircle(){
 void testApp::draw(){
     
     
-    ofBackground(20,186,204);
+    ofBackground(255,255,255);
     
     ofNoFill();
     ofSetLineWidth(1.0);
-    ofSetColor(255, 233,80);
     /*
      circleOut.thisPath.draw();
      circleInner.thisPath.draw();
