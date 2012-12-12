@@ -52,9 +52,11 @@ public:
     ofColor yellowColor, blueColor, pinkColor, whiteColor;
     vector <nodeType> nodes;
 
+    ofColor c1,c2;
     
     int numPoints;
-
+    bool drawNodesAndEdges;
+    
     circleType circleOut;
     circleType circleInner;
 

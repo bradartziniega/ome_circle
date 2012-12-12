@@ -8,7 +8,7 @@ void testApp::setup(){
     ofSetCircleResolution(100);
     
     circleOut.radius = (ofGetHeight() - 200)/2.0;
-    circleInner.radius = circleOut.radius - 150;
+    circleInner.radius = circleOut.radius - 225;
     
     circleOut.xPos = ofGetWidth()/2.0;
     circleOut.yPos = ofGetHeight()/2.0;
@@ -19,7 +19,7 @@ void testApp::setup(){
     
     createApprox();
     
-    numPoints = 500;
+    numPoints = 100;
     
     //add generic clearing and generation of everything
     
@@ -34,6 +34,11 @@ void testApp::setup(){
     pinkColor = ofColor(255,0,138);
     whiteColor = ofColor(255,255,255);
     
+    c1 = ofColor(33,33,33);
+    c2 = ofColor(240,240,240);
+    
+    drawNodesAndEdges = false;
+
 }
 
 //--------------------------------------------------------------
@@ -118,7 +123,7 @@ void testApp::update(){
                 //if has hole
                 nodes.push_back(nodeType());
                 nodes.back().thisPoint = tp1;
-                nodes.back().fadeValue = 1.0;
+                nodes.back().fadeValue = ofRandom(0,1);
                 nodes.back().nodeColor =  c;
                 nodes.back().isOn = true;
                 nodes.back().ID = curID;
@@ -127,7 +132,7 @@ void testApp::update(){
                 
                 nodes.push_back(nodeType());
                 nodes.back().thisPoint = tp2;
-                nodes.back().fadeValue = 1.0;
+                nodes.back().fadeValue = ofRandom(0,1);
                 nodes.back().nodeColor =  c;
                 nodes.back().isOn = true;
                 nodes.back().ID = curID;
@@ -137,7 +142,7 @@ void testApp::update(){
                 
                 nodes.push_back(nodeType());
                 nodes.back().thisPoint = tp3;
-                nodes.back().fadeValue = 1.0;
+                nodes.back().fadeValue = ofRandom(0,1);
                 nodes.back().nodeColor =  c;
                 nodes.back().isOn = true;
                 nodes.back().ID = curID;
@@ -178,6 +183,48 @@ void testApp::drawNetwork(){
             int indVal1 = nodes[i].connectID[0];
             int indVal2 = nodes[i].connectID[1];
             
+            
+            float min = nodes[i].thisPoint.y;
+            float max = nodes[i].thisPoint.y;
+            
+            if(nodes[indVal1].thisPoint.y > max) max = nodes[indVal1].thisPoint.y;
+            if(nodes[indVal2].thisPoint.y > max) max = nodes[indVal2].thisPoint.y;
+            
+            if(nodes[indVal1].thisPoint.y < min) min = nodes[indVal1].thisPoint.y;
+            if(nodes[indVal2].thisPoint.y < min) min = nodes[indVal2].thisPoint.y;
+            
+
+            
+            glBegin(GL_TRIANGLES);
+            
+            float percentT = ofMap(min, 0, ofGetHeight(), 0, 100);
+            float percentB = ofMap(max, 0, ofGetHeight(), 0, 100.0);
+            
+            ofColor cT;
+            ofColor cB;
+            
+            cT.r = ((float)(c1.r) - (float)(c2.r)) * (percentT/100.0) + (float)(c2.r);
+            cB.r = ((float)(c1.r) - (float)(c2.r)) * (percentB/100.0) + (float)(c2.r);
+            
+            cT.g = ((float)(c1.g) - (float)(c2.g)) * (percentT/100.0) + (float)(c2.g);
+            cB.g = ((float)(c1.g) - (float)(c2.g)) * (percentB/100.0) + (float)(c2.g);
+            
+            cT.b = ((float)(c1.b) - (float)(c2.b)) * (percentT/100.0) + (float)(c2.b);
+            cB.b = ((float)(c1.b) - (float)(c2.b)) * (percentB/100.0) + (float)(c2.b);
+            
+            
+            glColor3f( cB.r/255.0, (float)cB.g/255.0, (float)cB.b/255.0 );
+            
+            glVertex3f(nodes[i].thisPoint.x,nodes[i].thisPoint.y, 1);    // lower left vertex
+            glColor3f( cT.r/255.0, cT.g/255.0,cT.b/255.0 );
+            glVertex3f(nodes[indVal1].thisPoint.x,nodes[indVal1].thisPoint.y, 1);    // lower left vertex
+            glVertex3f(nodes[indVal2].thisPoint.x,nodes[indVal2].thisPoint.y, 1);    // lower left vertex
+            
+            
+            glEnd();
+
+            
+            if(drawNodesAndEdges){
             glBegin(GL_LINE_STRIP);
             
             glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
@@ -197,6 +244,9 @@ void testApp::drawNetwork(){
             glVertex3f(nodes[i].thisPoint.x, nodes[i].thisPoint.y, nodes[i].thisPoint.z);
             
             glEnd();
+            
+            
+            
             
             //main point
             
@@ -240,7 +290,7 @@ void testApp::drawNetwork(){
             ofNoFill();
             ofSetColor(nodeColor,nodes[indVal2].fadeValue*255.0);
             ofCircle(nodes[indVal2].thisPoint,2);
-            
+            }
             
             
         }
@@ -293,7 +343,14 @@ void testApp::draw(){
 void testApp::keyPressed  (int key){
     
     
-    
+    if(key=='c'){
+        if(drawNodesAndEdges){
+            drawNodesAndEdges=false;
+        }
+        else{
+            drawNodesAndEdges=true;
+        }
+    }
     
 }
 
