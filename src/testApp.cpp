@@ -19,23 +19,19 @@ void testApp::setup(){
     
     createApprox();
     
-    numPoints = 100;
+    numPoints = 70;
     
     //add generic clearing and generation of everything
     
-    seedPoints(numPoints);
-    
-    dTriangle.triangulate();
-    
-    networkUpdated = false;
-    
+    doTriangulation(numPoints);
+/*
     yellowColor = ofColor(255,239,122);
     blueColor = ofColor(20,186,204);
     pinkColor = ofColor(255,0,138);
     whiteColor = ofColor(255,255,255);
-    
-    c1 = ofColor(33,33,33);
-    c2 = ofColor(240,240,240);
+*/
+    c1 = ofColor(10,10,10);
+    c2 = ofColor(250,250,250);
     
     drawNodesAndEdges = false;
 
@@ -69,11 +65,15 @@ void testApp::createApprox(){
 }
 
 //--------------------------------------------------------------
-void testApp::seedPoints(int numPoints){
+void testApp::doTriangulation(int numPoints){
     
     int numInside = 0;
-    
     ofPoint curPoint;
+    
+    //resetting info
+    insidePoints.clear();
+    dTriangle.reset();
+    nodes.clear();
     
     while(numInside<numPoints){
         
@@ -92,7 +92,9 @@ void testApp::seedPoints(int numPoints){
         
     }
     
-    
+    dTriangle.triangulate();
+    networkUpdated = false;
+
     
 }
 
@@ -171,10 +173,6 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::drawNetwork(){
     
-    
-    
-    
-    
     for(int i=0;i<nodes.size();i++){
         
         
@@ -185,7 +183,7 @@ void testApp::drawNetwork(){
             
             
             float min = nodes[i].thisPoint.y;
-            float max = nodes[i].thisPoint.y;
+            float max = nodes[indVal1].thisPoint.y;
             
             if(nodes[indVal1].thisPoint.y > max) max = nodes[indVal1].thisPoint.y;
             if(nodes[indVal2].thisPoint.y > max) max = nodes[indVal2].thisPoint.y;
@@ -193,13 +191,13 @@ void testApp::drawNetwork(){
             if(nodes[indVal1].thisPoint.y < min) min = nodes[indVal1].thisPoint.y;
             if(nodes[indVal2].thisPoint.y < min) min = nodes[indVal2].thisPoint.y;
             
-
+            
             
             glBegin(GL_TRIANGLES);
             
-            float percentT = ofMap(min, 0, ofGetHeight(), 0, 100);
-            float percentB = ofMap(max, 0, ofGetHeight(), 0, 100.0);
-            
+            float percentT = ofMap(min,(ofGetHeight()/2.0)-circleOut.radius,ofGetHeight()/2.0 + circleOut.radius,0,100); //ofMap(min, 0, ofGetHeight(), 0, 100);
+            float percentB = ofMap(max,(ofGetHeight()/2.0)-circleOut.radius,ofGetHeight()/2.0 + circleOut.radius,0,100); //ofMap(max, 0, ofGetHeight(), 0, 100.0);
+                        
             ofColor cT;
             ofColor cB;
             
@@ -214,7 +212,6 @@ void testApp::drawNetwork(){
             
             
             glColor3f( cB.r/255.0, (float)cB.g/255.0, (float)cB.b/255.0 );
-            
             glVertex3f(nodes[i].thisPoint.x,nodes[i].thisPoint.y, 1);    // lower left vertex
             glColor3f( cT.r/255.0, cT.g/255.0,cT.b/255.0 );
             glVertex3f(nodes[indVal1].thisPoint.x,nodes[indVal1].thisPoint.y, 1);    // lower left vertex
@@ -310,32 +307,11 @@ void testApp::drawCircle(){
 //--------------------------------------------------------------
 void testApp::draw(){
     
-    
     ofBackground(255,255,255);
-    
     ofNoFill();
     ofSetLineWidth(1.0);
-    /*
-     circleOut.thisPath.draw();
-     circleInner.thisPath.draw();
-     //ofEllipse(circleOut.xPos, circleOut.yPos, circleOut.radius, circleOut.radius);
-     //ofEllipse(circleInner.xPos, circleInner.yPos, circleInner.radius, circleInner.radius);
-     
-     
-     
-     for(int i=0;i<numPoints;i++){
-     ofNoFill();
-     ofSetLineWidth(1.0);
-     ofSetColor(255, 233,80);
-     ofEllipse(insidePoints[i].x, insidePoints[i].y, 6, 6);
-     }
-     */
     drawNetwork();
-    
     drawCircle();
-    
-    
-    
     
 }
 
@@ -352,6 +328,10 @@ void testApp::keyPressed  (int key){
         }
     }
     
+    if(key==' '){
+        doTriangulation(numPoints);
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -360,8 +340,7 @@ void testApp::keyReleased  (int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-    //xValues[0] = (x-ofGetWidth()/2);
-    //yValues[0] = (y-ofGetHeight()/2);
+    
 }
 
 //--------------------------------------------------------------
@@ -370,6 +349,9 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
+    
+    numPoints = ofMap(mouseX, 0, ofGetWidth(), 10, 175);
+    doTriangulation(numPoints);
     
 }
 

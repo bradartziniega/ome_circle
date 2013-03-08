@@ -14,7 +14,7 @@ public:
     void update();
     void draw();
     
-    void seedPoints(int numPoints);
+    void doTriangulation(int numPoints);
     void createApprox();
     void drawNetwork();
     void drawCircle();
