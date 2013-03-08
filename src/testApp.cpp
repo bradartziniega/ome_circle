@@ -211,11 +211,11 @@ void testApp::drawNetwork(){
             cB.b = ((float)(c1.b) - (float)(c2.b)) * (percentB/100.0) + (float)(c2.b);
             
             
-            glColor3f( cB.r/255.0, (float)cB.g/255.0, (float)cB.b/255.0 );
-            glVertex3f(nodes[i].thisPoint.x,nodes[i].thisPoint.y, 1);    // lower left vertex
-            glColor3f( cT.r/255.0, cT.g/255.0,cT.b/255.0 );
-            glVertex3f(nodes[indVal1].thisPoint.x,nodes[indVal1].thisPoint.y, 1);    // lower left vertex
-            glVertex3f(nodes[indVal2].thisPoint.x,nodes[indVal2].thisPoint.y, 1);    // lower left vertex
+            //glColor3f( cB.r/255.0, (float)cB.g/255.0, (float)cB.b/255.0 );
+            //glVertex3f(nodes[i].thisPoint.x,nodes[i].thisPoint.y, 1);    // lower left vertex
+            //glColor3f( cT.r/255.0, cT.g/255.0,cT.b/255.0 );
+            //glVertex3f(nodes[indVal1].thisPoint.x,nodes[indVal1].thisPoint.y, 1);    // lower left vertex
+            //glVertex3f(nodes[indVal2].thisPoint.x,nodes[indVal2].thisPoint.y, 1);    // lower left vertex
             
             
             glEnd();
@@ -255,15 +255,15 @@ void testApp::drawNetwork(){
                 
                 ofFill();
                 ofSetColor(nodes[i].nodeColor.r,nodes[i].nodeColor.g,nodes[i].nodeColor.b,nodes[i].fadeValue*255.0);
-                ofCircle(nodes[i].thisPoint,2);
+                //ofCircle(nodes[i].thisPoint,2);
                 
                 ofFill();
                 ofSetColor(nodes[indVal1].nodeColor.r,nodes[indVal1].nodeColor.g,nodes[indVal1].nodeColor.b,nodes[indVal1].fadeValue*255.0);
-                ofCircle(nodes[indVal1].thisPoint,2);
+                //ofCircle(nodes[indVal1].thisPoint,2);
                 
                 ofFill();
                 ofSetColor(nodes[indVal2].nodeColor.r,nodes[indVal2].nodeColor.g,nodes[indVal2].nodeColor.b,nodes[indVal2].fadeValue*255.0);
-                ofCircle(nodes[indVal2].thisPoint,2);
+                //ofCircle(nodes[indVal2].thisPoint,2);
 
             }
             
@@ -272,13 +272,13 @@ void testApp::drawNetwork(){
             
             ofNoFill();
             ofSetColor(nodeColor,nodes[i].fadeValue*255);
-            ofCircle(nodes[i].thisPoint,2);
+            //ofCircle(nodes[i].thisPoint,2);
             
             
              //connect pt1
                         ofNoFill();
             ofSetColor(nodeColor,nodes[indVal1].fadeValue*255);
-            ofCircle(nodes[indVal1].thisPoint,2);
+            //ofCircle(nodes[indVal1].thisPoint,2);
             
             
              
@@ -286,7 +286,7 @@ void testApp::drawNetwork(){
                     
             ofNoFill();
             ofSetColor(nodeColor,nodes[indVal2].fadeValue*255.0);
-            ofCircle(nodes[indVal2].thisPoint,2);
+            //ofCircle(nodes[indVal2].thisPoint,2);
             }
             
             
@@ -350,7 +350,7 @@ void testApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
     
-    numPoints = ofMap(mouseX, 0, ofGetWidth(), 10, 175);
+    numPoints = ofMap(mouseX, 0, ofGetWidth(), 750, 1250);
     doTriangulation(numPoints);
     
 }
