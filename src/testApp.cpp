@@ -18,23 +18,51 @@ void testApp::setup(){
     
     
     createApprox();
+    generateNoisePoints();
     
-    numPoints = 70;
     
+    numSteps = 8;
+    numPoints = 1040/numSteps;
+    curStep = 0;
     //add generic clearing and generation of everything
     
     doTriangulation(numPoints);
-/*
-    yellowColor = ofColor(255,239,122);
-    blueColor = ofColor(20,186,204);
-    pinkColor = ofColor(255,0,138);
-    whiteColor = ofColor(255,255,255);
-*/
+    
     c1 = ofColor(10,10,10);
     c2 = ofColor(250,250,250);
     
     drawNodesAndEdges = false;
+    
+    capture = false;
+    
+}
 
+
+//--------------------------------------------------------------
+void testApp::generateNoisePoints(){
+    
+    ofPoint curPoint;
+    
+    for(int x=circleOut.xPos-circleOut.radius;x<circleOut.xPos+circleOut.radius;x++){
+        for(int y=circleOut.yPos-circleOut.radius;y<circleOut.yPos+circleOut.radius;y++){
+            
+            if(circleOut.thisPath.inside(x,y) && !circleInner.thisPath.inside(x, y)){
+                float a = x * .01 ;
+                float b = y * .01 ;
+                float c = ofRandom(1);
+                float noise = ofNoise(a,b,c) * 255;
+                
+                if(noise>170){
+                    curPoint.set(x,y);
+                    noisePoints.push_back(noiseType());
+                    noisePoints.back().point = curPoint;
+                    noisePoints.back().used = false;
+                    //noisePoints.point.push_back(curPoint);
+                }
+            }
+        }
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -52,9 +80,6 @@ void testApp::createApprox(){
         circleOut.thisPath.addVertex(ofVec2f(x_outer,y_outer));
         circleInner.thisPath.addVertex(ofVec2f(x_inner,y_inner));
         
-       // dTriangle.addPoint(x_outer,y_outer,1);
-       // dTriangle.addPoint(x_inner,y_inner,1);
-        
         i+=0.1;
         
     }
@@ -71,30 +96,45 @@ void testApp::doTriangulation(int numPoints){
     ofPoint curPoint;
     
     //resetting info
-    insidePoints.clear();
-    dTriangle.reset();
+    dTriangle.triangleMesh.clear();
+    dTriangle.triangles.clear();
     nodes.clear();
     
-    while(numInside<numPoints){
-        
+    int subtracted_amt = 0;
+    
+    if(curStep==0){ subtracted_amt=stepsToProcess[curStep];}
+    else{
+        subtracted_amt = stepsToProcess[curStep] - stepsToProcess[curStep-1];
+    }
+    
+    while(numInside<subtracted_amt){
         
         float xRand = ofRandom(circleOut.thisPath.getBoundingBox().x,circleOut.thisPath.getBoundingBox().x+circleOut.thisPath.getBoundingBox().width);
         float yRand = ofRandom(circleOut.thisPath.getBoundingBox().y,circleOut.thisPath.getBoundingBox().y+circleOut.thisPath.getBoundingBox().height);
         
         if(circleOut.thisPath.inside(xRand,yRand) && !circleInner.thisPath.inside(xRand, yRand)){
-            
             numInside++;
             curPoint.set(xRand,yRand);
-            insidePoints.push_back(curPoint);
             dTriangle.addPoint(xRand,yRand,1);
-            
         }
         
     }
     
+    int noiseCount = 0;
+    
+    while(noiseCount<200){
+        
+        int output = 0 + (rand() % (int)(noisePoints.size() - 0 + 1));
+        if(noisePoints[output].used==false){
+            dTriangle.addPoint(noisePoints[output].point.x,noisePoints[output].point.y,1);
+            noisePoints[output].used = true;
+        }
+        
+        noiseCount++;
+    }
+    
     dTriangle.triangulate();
     networkUpdated = false;
-
     
 }
 
@@ -197,7 +237,7 @@ void testApp::drawNetwork(){
             
             float percentT = ofMap(min,(ofGetHeight()/2.0)-circleOut.radius,ofGetHeight()/2.0 + circleOut.radius,0,100); //ofMap(min, 0, ofGetHeight(), 0, 100);
             float percentB = ofMap(max,(ofGetHeight()/2.0)-circleOut.radius,ofGetHeight()/2.0 + circleOut.radius,0,100); //ofMap(max, 0, ofGetHeight(), 0, 100.0);
-                        
+            
             ofColor cT;
             ofColor cB;
             
@@ -211,82 +251,90 @@ void testApp::drawNetwork(){
             cB.b = ((float)(c1.b) - (float)(c2.b)) * (percentB/100.0) + (float)(c2.b);
             
             
-            //glColor3f( cB.r/255.0, (float)cB.g/255.0, (float)cB.b/255.0 );
-            //glVertex3f(nodes[i].thisPoint.x,nodes[i].thisPoint.y, 1);    // lower left vertex
-            //glColor3f( cT.r/255.0, cT.g/255.0,cT.b/255.0 );
-            //glVertex3f(nodes[indVal1].thisPoint.x,nodes[indVal1].thisPoint.y, 1);    // lower left vertex
-            //glVertex3f(nodes[indVal2].thisPoint.x,nodes[indVal2].thisPoint.y, 1);    // lower left vertex
-            
+             glColor3f( cB.r/255.0, (float)cB.g/255.0, (float)cB.b/255.0 );
+             glVertex3f(nodes[i].thisPoint.x,nodes[i].thisPoint.y, 1);    // lower left vertex
+             glColor3f( cT.r/255.0, cT.g/255.0,cT.b/255.0 );
+             glVertex3f(nodes[indVal1].thisPoint.x,nodes[indVal1].thisPoint.y, 1);    // lower left vertex
+             glVertex3f(nodes[indVal2].thisPoint.x,nodes[indVal2].thisPoint.y, 1);    // lower left vertex
+             
             
             glEnd();
-
+            
             
             if(drawNodesAndEdges){
-            glBegin(GL_LINE_STRIP);
-            
-            glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
-            glVertex3f(nodes[indVal1].thisPoint.x, nodes[indVal1].thisPoint.y, nodes[indVal1].thisPoint.z);
-            
-            glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
-            glVertex3f(nodes[i].thisPoint.x, nodes[i].thisPoint.y, nodes[i].thisPoint.z);
-            
-            glEnd();
-            
-            glBegin(GL_LINE_STRIP);
-            
-            glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
-            glVertex3f(nodes[indVal2].thisPoint.x, nodes[indVal2].thisPoint.y, nodes[indVal2].thisPoint.z);
-            
-            glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
-            glVertex3f(nodes[i].thisPoint.x, nodes[i].thisPoint.y, nodes[i].thisPoint.z);
-            
-            glEnd();
-            
-            
-            
-            
-            //main point
-            
-            ofColor nodeColor = ofColor(0,0,0);
-            
-            bool fillNodes = true;
-            
-            if(fillNodes){
+                glBegin(GL_LINE_STRIP);
                 
-                ofFill();
-                ofSetColor(nodes[i].nodeColor.r,nodes[i].nodeColor.g,nodes[i].nodeColor.b,nodes[i].fadeValue*255.0);
-                //ofCircle(nodes[i].thisPoint,2);
+                glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
+                glVertex3f(nodes[indVal1].thisPoint.x, nodes[indVal1].thisPoint.y, nodes[indVal1].thisPoint.z);
                 
-                ofFill();
-                ofSetColor(nodes[indVal1].nodeColor.r,nodes[indVal1].nodeColor.g,nodes[indVal1].nodeColor.b,nodes[indVal1].fadeValue*255.0);
-                //ofCircle(nodes[indVal1].thisPoint,2);
+                glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
+                glVertex3f(nodes[i].thisPoint.x, nodes[i].thisPoint.y, nodes[i].thisPoint.z);
                 
-                ofFill();
-                ofSetColor(nodes[indVal2].nodeColor.r,nodes[indVal2].nodeColor.g,nodes[indVal2].nodeColor.b,nodes[indVal2].fadeValue*255.0);
-                //ofCircle(nodes[indVal2].thisPoint,2);
+                                
+                glEnd();
+                
 
-            }
-            
+                
+                glBegin(GL_LINE_STRIP);
+                
+                glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
+                glVertex3f(nodes[indVal2].thisPoint.x, nodes[indVal2].thisPoint.y, nodes[indVal2].thisPoint.z);
+                
+                glColor4f(nodes[i].nodeColor.r/255.0,nodes[i].nodeColor.g/255.0,nodes[i].nodeColor.b/255.0,nodes[indVal1].fadeValue);
+                glVertex3f(nodes[i].thisPoint.x, nodes[i].thisPoint.y, nodes[i].thisPoint.z);
+                
+                glEnd();
+                
+                
+                output.line(nodes[indVal1].thisPoint.x, nodes[indVal1].thisPoint.y, nodes[i].thisPoint.x, nodes[i].thisPoint.y);
+                output.line(nodes[i].thisPoint.x,nodes[i].thisPoint.y,nodes[indVal2].thisPoint.x,nodes[indVal2].thisPoint.y);
+                output.line(nodes[indVal2].thisPoint.x,nodes[indVal2].thisPoint.y,nodes[indVal1].thisPoint.x, nodes[indVal1].thisPoint.y);
+                
 
-            
-            
-            ofNoFill();
-            ofSetColor(nodeColor,nodes[i].fadeValue*255);
-            //ofCircle(nodes[i].thisPoint,2);
-            
-            
-             //connect pt1
-                        ofNoFill();
-            ofSetColor(nodeColor,nodes[indVal1].fadeValue*255);
-            //ofCircle(nodes[indVal1].thisPoint,2);
-            
-            
-             
-             //connect pt2
-                    
-            ofNoFill();
-            ofSetColor(nodeColor,nodes[indVal2].fadeValue*255.0);
-            //ofCircle(nodes[indVal2].thisPoint,2);
+                
+                //main point
+                /*
+                 ofColor nodeColor = ofColor(0,0,0);
+                 
+                 bool fillNodes = true;
+                 
+                 if(fillNodes){
+                 
+                 ofFill();
+                 ofSetColor(nodes[i].nodeColor.r,nodes[i].nodeColor.g,nodes[i].nodeColor.b,nodes[i].fadeValue*255.0);
+                 ofCircle(nodes[i].thisPoint,2);
+                 
+                 ofFill();
+                 ofSetColor(nodes[indVal1].nodeColor.r,nodes[indVal1].nodeColor.g,nodes[indVal1].nodeColor.b,nodes[indVal1].fadeValue*255.0);
+                 ofCircle(nodes[indVal1].thisPoint,2);
+                 
+                 ofFill();
+                 ofSetColor(nodes[indVal2].nodeColor.r,nodes[indVal2].nodeColor.g,nodes[indVal2].nodeColor.b,nodes[indVal2].fadeValue*255.0);
+                 ofCircle(nodes[indVal2].thisPoint,2);
+                 
+                 }
+                 
+                 
+                 
+                 
+                 ofNoFill();
+                 ofSetColor(nodeColor,nodes[i].fadeValue*255);
+                 //ofCircle(nodes[i].thisPoint,2);
+                 
+                 
+                 //connect pt1
+                 ofNoFill();
+                 ofSetColor(nodeColor,nodes[indVal1].fadeValue*255);
+                 //ofCircle(nodes[indVal1].thisPoint,2);
+                 
+                 
+                 
+                 //connect pt2
+                 
+                 ofNoFill();
+                 ofSetColor(nodeColor,nodes[indVal2].fadeValue*255.0);
+                 //ofCircle(nodes[indVal2].thisPoint,2);
+                 */
             }
             
             
@@ -294,6 +342,7 @@ void testApp::drawNetwork(){
         
     }
     
+
     
 }
 //--------------------------------------------------------------
@@ -307,11 +356,22 @@ void testApp::drawCircle(){
 //--------------------------------------------------------------
 void testApp::draw(){
     
+    if(capture){
+        string fName = "test" + ofToString(curStep) + ".ps";
+        output.beginEPS(fName);
+        output.noFill();
+        output.setColor(0x000000);
+    }
     ofBackground(255,255,255);
     ofNoFill();
     ofSetLineWidth(1.0);
     drawNetwork();
     drawCircle();
+    
+    if(capture){
+        output.endEPS();
+        capture = !capture;
+    }
     
 }
 
@@ -332,6 +392,14 @@ void testApp::keyPressed  (int key){
         doTriangulation(numPoints);
     }
     
+    if(key=='a'){
+        if(curStep<8){
+            curStep++;
+            doTriangulation(numPoints);
+        };
+        
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -345,13 +413,17 @@ void testApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
+    
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
     
-    numPoints = ofMap(mouseX, 0, ofGetWidth(), 750, 1250);
-    doTriangulation(numPoints);
+    capture = true;
+    
+    //numPoints = ofMap(mouseX, 0, ofGetWidth(), 10, 1250);
+    // doTriangulation(numPoints);
     
 }
 

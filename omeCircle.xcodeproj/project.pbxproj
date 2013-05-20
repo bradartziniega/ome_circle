@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5AC98B611672800E00BB402E /* Delaunay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AC98B5B1672800E00BB402E /* Delaunay.cpp */; };
-		5AC98B621672800E00BB402E /* ofxDelaunay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AC98B5F1672800E00BB402E /* ofxDelaunay.cpp */; };
+		5A5A126216EC49840098AB55 /* Delaunay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A5A125516EC49840098AB55 /* Delaunay.cpp */; };
+		5A5A126316EC49840098AB55 /* ofxDelaunay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A5A125916EC49840098AB55 /* ofxDelaunay.cpp */; };
 		5AC98B79167288F800BB402E /* assert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AC98B73167288F800BB402E /* assert.cpp */; };
 		5AC98B7A167288F800BB402E /* del_impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AC98B74167288F800BB402E /* del_impl.cpp */; };
 		5AC98B7B167288F800BB402E /* ofxTriangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AC98B77167288F800BB402E /* ofxTriangle.cpp */; };
+		5AEAD69416EC65BD006B34B1 /* CreEPS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEAD68E16EC65BD006B34B1 /* CreEPS.cpp */; };
+		5AEAD69516EC65BD006B34B1 /* ofxVectorGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEAD69216EC65BD006B34B1 /* ofxVectorGraphics.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -65,11 +67,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5AC98B5B1672800E00BB402E /* Delaunay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delaunay.cpp; sourceTree = "<group>"; };
-		5AC98B5C1672800E00BB402E /* Delaunay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delaunay.h; sourceTree = "<group>"; };
-		5AC98B5D1672800E00BB402E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		5AC98B5F1672800E00BB402E /* ofxDelaunay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDelaunay.cpp; sourceTree = "<group>"; };
-		5AC98B601672800E00BB402E /* ofxDelaunay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDelaunay.h; sourceTree = "<group>"; };
+		5A5A125516EC49840098AB55 /* Delaunay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delaunay.cpp; sourceTree = "<group>"; };
+		5A5A125616EC49840098AB55 /* Delaunay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delaunay.h; sourceTree = "<group>"; };
+		5A5A125716EC49840098AB55 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		5A5A125916EC49840098AB55 /* ofxDelaunay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDelaunay.cpp; sourceTree = "<group>"; };
+		5A5A125A16EC49840098AB55 /* ofxDelaunay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDelaunay.h; sourceTree = "<group>"; };
 		5AC98B69167288F800BB402E /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		5AC98B6D167288F800BB402E /* assert.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = assert.hpp; sourceTree = "<group>"; };
 		5AC98B6E167288F800BB402E /* del_interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = del_interface.hpp; sourceTree = "<group>"; };
@@ -81,6 +83,12 @@
 		5AC98B75167288F800BB402E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		5AC98B77167288F800BB402E /* ofxTriangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTriangle.cpp; sourceTree = "<group>"; };
 		5AC98B78167288F800BB402E /* ofxTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTriangle.h; sourceTree = "<group>"; };
+		5AEAD68C16EC65BD006B34B1 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
+		5AEAD68E16EC65BD006B34B1 /* CreEPS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreEPS.cpp; sourceTree = "<group>"; };
+		5AEAD68F16EC65BD006B34B1 /* CreEPS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CreEPS.hpp; sourceTree = "<group>"; };
+		5AEAD69016EC65BD006B34B1 /* CreEPS_Types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CreEPS_Types.hpp; sourceTree = "<group>"; };
+		5AEAD69216EC65BD006B34B1 /* ofxVectorGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxVectorGraphics.cpp; sourceTree = "<group>"; };
+		5AEAD69316EC65BD006B34B1 /* ofxVectorGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxVectorGraphics.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -135,39 +143,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5AC98B581672800E00BB402E /* ofxDelaunay */ = {
+		5A5A124716EC49840098AB55 /* ofxDelaunayUpdate */ = {
 			isa = PBXGroup;
 			children = (
-				5AC98B591672800E00BB402E /* libs */,
-				5AC98B5D1672800E00BB402E /* README.md */,
-				5AC98B5E1672800E00BB402E /* src */,
+				5A5A125316EC49840098AB55 /* libs */,
+				5A5A125716EC49840098AB55 /* README.md */,
+				5A5A125816EC49840098AB55 /* src */,
 			);
-			name = ofxDelaunay;
-			path = ../../../addons/ofxDelaunay;
+			name = ofxDelaunayUpdate;
+			path = ../../../addons/ofxDelaunayUpdate;
 			sourceTree = "<group>";
 		};
-		5AC98B591672800E00BB402E /* libs */ = {
+		5A5A125316EC49840098AB55 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				5AC98B5A1672800E00BB402E /* Delaunay */,
+				5A5A125416EC49840098AB55 /* Delaunay */,
 			);
 			path = libs;
 			sourceTree = "<group>";
 		};
-		5AC98B5A1672800E00BB402E /* Delaunay */ = {
+		5A5A125416EC49840098AB55 /* Delaunay */ = {
 			isa = PBXGroup;
 			children = (
-				5AC98B5B1672800E00BB402E /* Delaunay.cpp */,
-				5AC98B5C1672800E00BB402E /* Delaunay.h */,
+				5A5A125516EC49840098AB55 /* Delaunay.cpp */,
+				5A5A125616EC49840098AB55 /* Delaunay.h */,
 			);
 			path = Delaunay;
 			sourceTree = "<group>";
 		};
-		5AC98B5E1672800E00BB402E /* src */ = {
+		5A5A125816EC49840098AB55 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				5AC98B5F1672800E00BB402E /* ofxDelaunay.cpp */,
-				5AC98B601672800E00BB402E /* ofxDelaunay.h */,
+				5A5A125916EC49840098AB55 /* ofxDelaunay.cpp */,
+				5A5A125A16EC49840098AB55 /* ofxDelaunay.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -231,11 +239,42 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		5AEAD68B16EC65BD006B34B1 /* ofxVectorGraphics */ = {
+			isa = PBXGroup;
+			children = (
+				5AEAD68C16EC65BD006B34B1 /* install.xml */,
+				5AEAD68D16EC65BD006B34B1 /* libs */,
+				5AEAD69116EC65BD006B34B1 /* src */,
+			);
+			name = ofxVectorGraphics;
+			path = ../../../addons/ofxVectorGraphics;
+			sourceTree = "<group>";
+		};
+		5AEAD68D16EC65BD006B34B1 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				5AEAD68E16EC65BD006B34B1 /* CreEPS.cpp */,
+				5AEAD68F16EC65BD006B34B1 /* CreEPS.hpp */,
+				5AEAD69016EC65BD006B34B1 /* CreEPS_Types.hpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		5AEAD69116EC65BD006B34B1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				5AEAD69216EC65BD006B34B1 /* ofxVectorGraphics.cpp */,
+				5AEAD69316EC65BD006B34B1 /* ofxVectorGraphics.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				5AEAD68B16EC65BD006B34B1 /* ofxVectorGraphics */,
+				5A5A124716EC49840098AB55 /* ofxDelaunayUpdate */,
 				5AC98B68167288F800BB402E /* ofxTriangle */,
-				5AC98B581672800E00BB402E /* ofxDelaunay */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -408,11 +447,13 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
-				5AC98B611672800E00BB402E /* Delaunay.cpp in Sources */,
-				5AC98B621672800E00BB402E /* ofxDelaunay.cpp in Sources */,
 				5AC98B79167288F800BB402E /* assert.cpp in Sources */,
 				5AC98B7A167288F800BB402E /* del_impl.cpp in Sources */,
 				5AC98B7B167288F800BB402E /* ofxTriangle.cpp in Sources */,
+				5A5A126216EC49840098AB55 /* Delaunay.cpp in Sources */,
+				5A5A126316EC49840098AB55 /* ofxDelaunay.cpp in Sources */,
+				5AEAD69416EC65BD006B34B1 /* CreEPS.cpp in Sources */,
+				5AEAD69516EC65BD006B34B1 /* ofxVectorGraphics.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

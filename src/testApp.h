@@ -4,6 +4,7 @@
 #include "ofMain.h"
 #include "ofxDelaunay.h"
 #include "ofxTriangle.h"
+#include "ofxVectorGraphics.h"
 
 class testApp : public ofBaseApp{
 	
@@ -16,6 +17,7 @@ public:
     
     void doTriangulation(int numPoints);
     void createApprox();
+    void generateNoisePoints();
     void drawNetwork();
     void drawCircle();
     
@@ -49,12 +51,25 @@ public:
         
     } nodeType;
     
+    typedef struct{
+        ofPoint point;
+        bool used = false;
+    } noiseType;
+    
+    bool capture;
+    
+    //int stepsToProcess[8]  = {1,40,100,150,200,400,700,1000};
+    int stepsToProcess[8]  = {1,20,50,150,200,400,700,1000};
+
+    ofxVectorGraphics output;
+    
     ofColor yellowColor, blueColor, pinkColor, whiteColor;
     vector <nodeType> nodes;
-
+    vector <noiseType> noisePoints;
+    
     ofColor c1,c2;
     
-    int numPoints;
+    int numPoints, numSteps, curStep;
     bool drawNodesAndEdges;
     
     circleType circleOut;
@@ -64,6 +79,7 @@ public:
     
     ofxDelaunay dTriangle;
     ofxTriangle triangles;
+    int noisePointsDivider;
     
     bool networkUpdated;
     
